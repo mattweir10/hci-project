@@ -5,12 +5,13 @@
 
 var express = require('express'),
   routes = require('./routes'),
-  user = require('./routes/user'),
   http = require('http'),
-  path = require('path');
+  path = require('path'),
+  mongoose = require('mongoose');
 
 var app = express();
 
+// app configuration
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
@@ -23,12 +24,18 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
+// development config
 app.configure('development', function(){
   app.use(express.errorHandler());
+  mongoose.connect('mongodb://localhost/hci');
 });
 
+// production config
+
+var api = require('./api.js');
 app.get('/', routes.index);
-app.get('/users', user.list);
+app.get('/api/scores', api.getScores);
+app.post('/api/scores', api.createScore);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

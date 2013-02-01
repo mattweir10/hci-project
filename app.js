@@ -27,10 +27,11 @@ app.configure(function(){
 // development config
 app.configure('development', function(){
   app.use(express.errorHandler());
-  mongoose.connect('mongodb://localhost/hci');
 });
 
-// production config
+// connect to MongoDB database
+var mongoUri = process.env.MONGOHQ_URL || 'mongodb://localhost/hci';
+mongoose.connect(mongoUri);
 
 var api = require('./api.js');
 app.get('/', routes.index);

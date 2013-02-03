@@ -59,7 +59,7 @@ Game.prototype.start = function() {
 Game.prototype.end = function(scores) {
 	$.post('/api/scores', { scores: scores }, function(data) {
 		console.log(data);
-		$('p#message').append('Saved!').show().fadeOut(2000);
+		$('p#message').append('<br>Saved!').show().fadeOut(2000);
 	});
 
 	createjs.Ticker.removeListener(this.stage);

@@ -28,3 +28,10 @@ Target.prototype.randomizeLocation = function() {
 	this.x = Math.random() * width;
 	this.y = Math.random() * height;
 };
+
+Target.prototype.onPress = function(e) {
+	$('#stats').html('Stats: X=' + e.stageX + ', Y=' + e.stageY);
+	this.clicked = true;
+	this.mouseX = e.stageX;
+	this.mouseY = e.stageY;
+};

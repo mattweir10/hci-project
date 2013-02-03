@@ -38,7 +38,7 @@ Target.prototype.onPress = function(e) {
 
 Target.prototype.getWidth = function() {
 	return this.image.width;
-}
+};
 
 Target.prototype.getHeight = function() {
 	return this.image.height;

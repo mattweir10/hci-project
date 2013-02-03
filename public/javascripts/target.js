@@ -25,8 +25,8 @@ Target.prototype.randomizeLocation = function() {
 	var width = (this.canvas.width || 640) - this.image.width,
 		height = (this.canvas.height || 480) - this.image.height;
 
-	this.x = Math.random() * width;
-	this.y = Math.random() * height;
+	this.x = Math.round(Math.random() * width);
+	this.y = Math.round(Math.random() * height);
 };
 
 Target.prototype.onPress = function(e) {
@@ -34,4 +34,19 @@ Target.prototype.onPress = function(e) {
 	this.clicked = true;
 	this.mouseX = e.stageX;
 	this.mouseY = e.stageY;
+};
+
+Target.prototype.getWidth = function() {
+	return this.image.width;
+}
+
+Target.prototype.getHeight = function() {
+	return this.image.height;
+};
+
+Target.prototype.getCenter = function() {
+	return {
+		x: this.x + this.getWidth() / 2,
+		y: this.y + this.getHeight() / 2
+	};
 };

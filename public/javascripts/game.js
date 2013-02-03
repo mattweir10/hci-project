@@ -1,26 +1,25 @@
 /*
-game.js
-Game class
+	game.js
+	Game class
 */
 function Game() {		
 	this.canvas = document.getElementById('game');
+	this.container = new createjs.Container();
 	this.stage = new createjs.Stage(this.canvas);
 
 	this.stage.enableMouseOver(10);
 	this.stage.mouseMoveOutside = true;
+	this.stage.addChild(this.container);
 
 	var image = new Image();
 	image.src = '/images/target.jpg';
 
 	var stage = this.stage;
 	var game = this;
+
 	image.onload = function(event) {
 		var image = event.target;
-		var container = new createjs.Container();
-		stage.addChild(container);
-
 		game.target = new Target(image, game.canvas);
-		container.addChild(game.target);
 	};
 
 	createjs.Ticker.useRAF = true;
@@ -30,19 +29,21 @@ function Game() {
 Game.prototype.start = function() {
 	var targetCount = 0,
 		scores = [],
-		target = this.target,
 		game = this;
 
+	this.container.removeAllChildren();
+	this.container.addChild(game.target);
+
 	createjs.Ticker.addListener(this.stage);
-	target.randomizeLocation();
+	this.target.randomizeLocation();
 
 	this.stage.tick = function() {
-		if (target.clicked) {
-			target.clicked = false;
-			scores.push({ x: target.mouseX, y: target.mouseY });
+		if (game.target.clicked) {
+			game.target.clicked = false;
+			scores.push({ x: game.target.mouseX, y: game.target.mouseY });
 
 			targetCount++;
-			target.randomizeLocation();
+			game.target.randomizeLocation();
 		}
 
 		if (targetCount >= 5) {
@@ -60,5 +61,11 @@ Game.prototype.end = function(scores) {
 		$('p#message').append('<br>Saved!').show().fadeOut(2000);
 	});
 
+	this.container.removeChild(this.target);
 	createjs.Ticker.removeListener(this.stage);
+
+	var gameOver = new createjs.Text('Game Over!');
+	gameOver.x = (this.canvas.width / 2) - (gameOver.getMeasuredWidth() / 2);
+	gameOver.y = (this.canvas.height / 2) - (gameOver.getMeasuredHeight() / 2);
+	this.container.addChild(gameOver);
 };

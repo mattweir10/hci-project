@@ -19,7 +19,7 @@
   // create a new score
   exports.createScore = function(req, res) {
     var score = new Score({
-      clickLocations: req.body.scores
+      locations: req.body.locations,
     });
 
     score.save(function(err) {

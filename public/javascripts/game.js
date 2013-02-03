@@ -28,7 +28,7 @@ function Game() {
 
 Game.prototype.start = function() {
 	var targetCount = 0,
-		scores = [],
+		locations = [],
 		game = this;
 
 	this.container.removeAllChildren();
@@ -40,7 +40,10 @@ Game.prototype.start = function() {
 	this.stage.tick = function() {
 		if (game.target.clicked) {
 			game.target.clicked = false;
-			scores.push({ x: game.target.mouseX, y: game.target.mouseY });
+			locations.push({
+				click: { x: game.target.mouseX, y: game.target.mouseY },
+				target: game.target.getCenter()
+			});
 
 			targetCount++;
 			game.target.randomizeLocation();
@@ -48,15 +51,15 @@ Game.prototype.start = function() {
 
 		if (targetCount >= 5) {
 			$('p#message').html('Game Over!').show().fadeOut(2000);
-			game.end(scores);
+			game.end(locations);
 		}
 
 		this.update();
 	};
 };
 
-Game.prototype.end = function(scores) {
-	$.post('/api/scores', { scores: scores }, function(data) {
+Game.prototype.end = function(locations) {
+	$.post('/api/scores', { locations: locations }, function(data) {
 		console.log(data);
 		$('p#message').append('<br>Saved!').show().fadeOut(2000);
 	});

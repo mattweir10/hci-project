@@ -12,10 +12,16 @@
 		http://mongoosejs.com/docs/guide.html
 	 */
 	var scoreSchema = new Schema({
-		// array of (x, y) coordinates
-	  clickLocations: [{
-	    x: Number,
-	    y: Number
+		// array of objects which includes click and target data
+	  locations: [{
+	  	click: {
+	    	x: Number,
+	    	y: Number
+	    },
+	    target: {
+	    	x: Number,
+	    	y: Number
+	    }
 	  }],
 	  date: {
 	  	type: Date,

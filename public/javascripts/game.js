@@ -16,8 +16,6 @@ function Game() {
 	var game = this;
 	image.onload = function(event) {
 		var image = event.target;
-		console.log(event);
-		console.log(stage);
 		var container = new createjs.Container();
 		stage.addChild(container);
 
@@ -30,10 +28,10 @@ function Game() {
 }
 
 Game.prototype.start = function() {
-	var targetCount = 0;
-	var scores = [];
-	var target = this.target;
-	var game = this;
+	var targetCount = 0,
+		scores = [],
+		target = this.target,
+		game = this;
 
 	createjs.Ticker.addListener(this.stage);
 	target.randomizeLocation();

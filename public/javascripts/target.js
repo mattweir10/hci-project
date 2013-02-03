@@ -1,11 +1,12 @@
-/**
- * Target Class
- * Inherits from createjs.Bitmap class
+/*
+  Target Class
+  Inherits from createjs.Bitmap class
+  (http://www.createjs.com/Docs/EaselJS/Bitmap.html)
  */
 
-/**
- * Class constructor
- */
+/*
+  Class constructor
+*/
 function Target(image, canvas) {
 	createjs.Bitmap.call(this, image); // call super constructor
 
@@ -16,9 +17,9 @@ function Target(image, canvas) {
 	this.mouseY = 0;
 }
 
-/**
- * Inherit from createjs.Bitmap class
- */
+/*
+  Inherit from createjs.Bitmap class
+*/
 Target.prototype = Object.create(createjs.Bitmap.prototype);
 
 Target.prototype.randomizeLocation = function() {

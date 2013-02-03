@@ -16,7 +16,11 @@
 	  clickLocations: [{
 	    x: Number,
 	    y: Number
-	  }]
+	  }],
+	  date: {
+	  	type: Date,
+	  	default: Date.now
+	  }
 	});
 
 	// export our class as a module

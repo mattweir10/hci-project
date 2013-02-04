@@ -23,6 +23,7 @@
 	    	y: Number
 	    }
 	  }],
+	  completionTime: Number,
 	  date: {
 	  	type: Date,
 	  	default: Date.now

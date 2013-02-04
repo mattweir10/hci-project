@@ -37,6 +37,14 @@ Game.prototype.start = function() {
 	createjs.Ticker.addListener(this.stage);
 	this.target.randomizeLocation();
 
+	var start = Date.now(),
+		elapsed = 0;
+	
+	// run timer every 100ms
+	var intervalId = window.setInterval(function() {
+		elapsed = Date.now() - start;
+	}, 100);
+
 	this.stage.tick = function() {
 		if (game.target.clicked) {
 			game.target.clicked = false;
@@ -51,15 +59,21 @@ Game.prototype.start = function() {
 
 		if (targetCount >= 5) {
 			$('p#message').html('Game Over!').show().fadeOut(2000);
-			game.end(locations);
+			window.clearInterval(intervalId); // stop timer
+			game.end(locations, elapsed);
 		}
 
 		this.update();
 	};
 };
 
-Game.prototype.end = function(locations) {
-	$.post('/api/scores', { locations: locations }, function(data) {
+Game.prototype.end = function(locations, elapsed) {
+	var saveData = {
+		locations: locations,
+		completionTime: elapsed
+	};
+
+	$.post('/api/scores', saveData, function(data) {
 		console.log(data);
 		$('p#message').append('<br>Saved!').show().fadeOut(2000);
 	});

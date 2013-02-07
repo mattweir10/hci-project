@@ -45,6 +45,7 @@ Game.prototype.start = function() {
 		elapsed = Date.now() - start;
 	}, 100);
 
+	// this gets called 60 times per second (60 FPS)
 	this.stage.tick = function() {
 		if (game.target.clicked) {
 			game.target.clicked = false;
@@ -73,6 +74,7 @@ Game.prototype.end = function(locations, elapsed) {
 		completionTime: elapsed
 	};
 
+	// send our data to the API to save
 	$.post('/api/scores', saveData, function(data) {
 		console.log(data);
 		$('p#message').append('<br>Saved!').show().fadeOut(2000);

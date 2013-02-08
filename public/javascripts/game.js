@@ -7,6 +7,8 @@ function Game() {
 	this.container = new createjs.Container();
 	this.stage = new createjs.Stage(this.canvas);
 
+	this.state = '';
+
 	this.stage.enableMouseOver(10);
 	this.stage.mouseMoveOutside = true;
 	this.stage.addChild(this.container);
@@ -43,7 +45,8 @@ Game.prototype.start = function() {
 	// run timer every 100ms
 	var intervalId = window.setInterval(function() {
 		elapsed = Date.now() - start;
-	}, 100);
+		$('span#seconds').html(elapsed / 1000);
+	}, 10);
 
 	// this gets called 60 times per second (60 FPS)
 	this.stage.tick = function() {

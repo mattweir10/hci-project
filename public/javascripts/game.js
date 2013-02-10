@@ -50,7 +50,7 @@ define(
 			// run timer every 10ms
 			var intervalId = window.setInterval(function() {
 				elapsed = Date.now() - start;
-				$('span#seconds').html(elapsed / 1000);
+				$('span#seconds').html((elapsed / 1000).toFixed(3));
 			}, 10);
 
 			// this gets called 60 times per second (60 FPS)
@@ -91,7 +91,7 @@ define(
 			this.container.removeChild(this.target);
 			createjs.Ticker.removeListener(this.stage);
 
-			var gameOver = new createjs.Text('Game Over!');
+			var gameOver = new createjs.Text('Game Over!', 'bold 36px arial');
 			gameOver.x = (this.canvas.width / 2) - (gameOver.getMeasuredWidth() / 2);
 			gameOver.y = (this.canvas.height / 2) - (gameOver.getMeasuredHeight() / 2);
 			this.container.addChild(gameOver);

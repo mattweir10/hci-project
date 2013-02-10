@@ -2,92 +2,101 @@
 	game.js
 	Game class
 */
-function Game() {		
-	this.canvas = document.getElementById('game');
-	this.container = new createjs.Container();
-	this.stage = new createjs.Stage(this.canvas);
+define(
+	[
+		'jquery',
+		'target',
+		'easeljs'
+	],
+	function($, Target) {
+		function Game() {		
+			this.canvas = document.getElementById('game');
+			this.container = new createjs.Container();
+			this.stage = new createjs.Stage(this.canvas);
 
-	this.state = '';
+			this.stage.enableMouseOver(10);
+			this.stage.mouseMoveOutside = true;
+			this.stage.addChild(this.container);
 
-	this.stage.enableMouseOver(10);
-	this.stage.mouseMoveOutside = true;
-	this.stage.addChild(this.container);
+			var image = new Image();
+			image.src = '/images/target.jpg';
 
-	var image = new Image();
-	image.src = '/images/target.jpg';
+			var stage = this.stage;
+			var game = this;
 
-	var stage = this.stage;
-	var game = this;
+			image.onload = function(event) {
+				var image = event.target;
+				game.target = new Target(image, game.canvas);
+			};
 
-	image.onload = function(event) {
-		var image = event.target;
-		game.target = new Target(image, game.canvas);
-	};
+			createjs.Ticker.useRAF = true;
+			createjs.Ticker.setFPS(60);
+		}
 
-	createjs.Ticker.useRAF = true;
-	createjs.Ticker.setFPS(60);
-}
+		Game.prototype.start = function() {
+			var targetCount = 0,
+				locations = [],
+				game = this;
 
-Game.prototype.start = function() {
-	var targetCount = 0,
-		locations = [],
-		game = this;
+			this.container.removeAllChildren();
+			this.container.addChild(game.target);
 
-	this.container.removeAllChildren();
-	this.container.addChild(game.target);
+			createjs.Ticker.addListener(this.stage);
+			this.target.randomizeLocation();
 
-	createjs.Ticker.addListener(this.stage);
-	this.target.randomizeLocation();
+			var start = Date.now(),
+				elapsed = 0;
+			
+			// run timer every 10ms
+			var intervalId = window.setInterval(function() {
+				elapsed = Date.now() - start;
+				$('span#seconds').html(elapsed / 1000);
+			}, 10);
 
-	var start = Date.now(),
-		elapsed = 0;
-	
-	// run timer every 100ms
-	var intervalId = window.setInterval(function() {
-		elapsed = Date.now() - start;
-		$('span#seconds').html(elapsed / 1000);
-	}, 10);
+			// this gets called 60 times per second (60 FPS)
+			this.stage.tick = function() {
+				if (game.target.clicked) {
+					game.target.clicked = false;
+					locations.push({
+						click: { x: game.target.mouseX, y: game.target.mouseY },
+						target: game.target.getCenter()
+					});
 
-	// this gets called 60 times per second (60 FPS)
-	this.stage.tick = function() {
-		if (game.target.clicked) {
-			game.target.clicked = false;
-			locations.push({
-				click: { x: game.target.mouseX, y: game.target.mouseY },
-				target: game.target.getCenter()
+					targetCount++;
+					game.target.randomizeLocation();
+				}
+
+				if (targetCount >= 5) {
+					$('p#message').html('Game Over!').show().fadeOut(2000);
+					window.clearInterval(intervalId); // stop timer
+					game.end(locations, elapsed);
+				}
+
+				this.update();
+			};
+		};
+
+		Game.prototype.end = function(locations, elapsed) {
+			var saveData = {
+				locations: locations,
+				completionTime: elapsed
+			};
+
+			// send our data to the API to save
+			$.post('/api/scores', saveData, function(data) {
+				console.log(data);
+				$('p#message').append('<br>Saved!').show().fadeOut(2000);
 			});
 
-			targetCount++;
-			game.target.randomizeLocation();
-		}
+			this.container.removeChild(this.target);
+			createjs.Ticker.removeListener(this.stage);
 
-		if (targetCount >= 5) {
-			$('p#message').html('Game Over!').show().fadeOut(2000);
-			window.clearInterval(intervalId); // stop timer
-			game.end(locations, elapsed);
-		}
+			var gameOver = new createjs.Text('Game Over!');
+			gameOver.x = (this.canvas.width / 2) - (gameOver.getMeasuredWidth() / 2);
+			gameOver.y = (this.canvas.height / 2) - (gameOver.getMeasuredHeight() / 2);
+			this.container.addChild(gameOver);
+		};
 
-		this.update();
-	};
-};
-
-Game.prototype.end = function(locations, elapsed) {
-	var saveData = {
-		locations: locations,
-		completionTime: elapsed
-	};
-
-	// send our data to the API to save
-	$.post('/api/scores', saveData, function(data) {
-		console.log(data);
-		$('p#message').append('<br>Saved!').show().fadeOut(2000);
-	});
-
-	this.container.removeChild(this.target);
-	createjs.Ticker.removeListener(this.stage);
-
-	var gameOver = new createjs.Text('Game Over!');
-	gameOver.x = (this.canvas.width / 2) - (gameOver.getMeasuredWidth() / 2);
-	gameOver.y = (this.canvas.height / 2) - (gameOver.getMeasuredHeight() / 2);
-	this.container.addChild(gameOver);
-};
+		return Game;
+	}
+);

@@ -3,51 +3,60 @@
   Inherits from createjs.Bitmap class
   (http://www.createjs.com/Docs/EaselJS/Bitmap.html)
  */
+define(
+  [
+    'jquery',
+    'easeljs'
+  ],
+  function($) {
+    /*
+      Class constructor
+    */
+    function Target(image, canvas) {
+      createjs.Bitmap.call(this, image); // call super constructor
 
-/*
-  Class constructor
-*/
-function Target(image, canvas) {
-	createjs.Bitmap.call(this, image); // call super constructor
+      // instance variables
+      this.canvas = canvas;
+      this.clicked = false;
+      this.mouseX = 0;
+      this.mouseY = 0;
+    }
 
-	// instance variables
-	this.canvas = canvas;
-	this.clicked = false;
-	this.mouseX = 0;
-	this.mouseY = 0;
-}
+    /*
+      Inherit from createjs.Bitmap class
+    */
+    Target.prototype = Object.create(createjs.Bitmap.prototype);
 
-/*
-  Inherit from createjs.Bitmap class
-*/
-Target.prototype = Object.create(createjs.Bitmap.prototype);
+    Target.prototype.randomizeLocation = function() {
+      var width = (this.canvas.width || 640) - this.image.width,
+        height = (this.canvas.height || 480) - this.image.height;
 
-Target.prototype.randomizeLocation = function() {
-	var width = (this.canvas.width || 640) - this.image.width,
-		height = (this.canvas.height || 480) - this.image.height;
+      this.x = Math.round(Math.random() * width);
+      this.y = Math.round(Math.random() * height);
+    };
 
-	this.x = Math.round(Math.random() * width);
-	this.y = Math.round(Math.random() * height);
-};
+    Target.prototype.onPress = function(e) {
+      $('#stats').html('Stats: X=' + e.stageX + ', Y=' + e.stageY);
+      this.clicked = true;
+      this.mouseX = e.stageX;
+      this.mouseY = e.stageY;
+    };
 
-Target.prototype.onPress = function(e) {
-	$('#stats').html('Stats: X=' + e.stageX + ', Y=' + e.stageY);
-	this.clicked = true;
-	this.mouseX = e.stageX;
-	this.mouseY = e.stageY;
-};
+    Target.prototype.getWidth = function() {
+      return this.image.width;
+    };
 
-Target.prototype.getWidth = function() {
-	return this.image.width;
-};
+    Target.prototype.getHeight = function() {
+      return this.image.height;
+    };
 
-Target.prototype.getHeight = function() {
-	return this.image.height;
-};
+    Target.prototype.getCenter = function() {
+      return {
+        x: this.x + this.getWidth() / 2,
+        y: this.y + this.getHeight() / 2
+      };
+    };
 
-Target.prototype.getCenter = function() {
-	return {
-		x: this.x + this.getWidth() / 2,
-		y: this.y + this.getHeight() / 2
-	};
-};
+    return Target;
+  }
+);  

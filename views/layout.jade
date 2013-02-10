@@ -5,8 +5,4 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     block content
-    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js')
-    script(src='http://code.createjs.com/easeljs-0.5.0.min.js')
-    script(src='/javascripts/target.js')
-    script(src='/javascripts/game.js')
-    script(src='/javascripts/client.js')
+    script(data-main='javascripts/main', src='http://requirejs.org/docs/release/2.1.4/minified/require.js')

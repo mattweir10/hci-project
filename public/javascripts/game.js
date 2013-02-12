@@ -77,7 +77,7 @@ define(
 		};
 
 		Game.prototype.end = function(locations, elapsed) {
-			// start with max score (number of pixels in target)
+			// start with max score (number of pixels in target * 5 targets)
 			var maxScore =
 				Math.floor(Math.PI * Math.pow(this.target.getWidth() / 2, 2)) * 5;
 			var score = maxScore;

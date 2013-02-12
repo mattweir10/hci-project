@@ -5,10 +5,9 @@
  */
 define(
   [
-    'jquery',
     'easeljs'
   ],
-  function($) {
+  function() {
     /*
       Class constructor
     */
@@ -36,7 +35,6 @@ define(
     };
 
     Target.prototype.onPress = function(e) {
-      $('#stats').html('Stats: X=' + e.stageX + ', Y=' + e.stageY);
       this.clicked = true;
       this.mouseX = e.stageX;
       this.mouseY = e.stageY;

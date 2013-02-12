@@ -77,8 +77,24 @@ define(
 		};
 
 		Game.prototype.end = function(locations, elapsed) {
+			// start with max score (number of pixels in target)
+			var maxScore =
+				Math.floor(Math.PI * Math.pow(this.target.getWidth() / 2, 2)) * 5;
+			var score = maxScore;
+			
+			locations.forEach(function(loc) {
+				// subtract each pixel off center
+				var xOff = Math.abs(loc.click.x - loc.target.x);
+				var yOff = Math.abs(loc.click.y - loc.target.y);
+				score -= xOff + yOff;
+			});
+
+			// subtract time in ms
+			score -= elapsed;
+
 			var saveData = {
 				locations: locations,
+				score: score,
 				completionTime: elapsed
 			};
 
@@ -91,7 +107,8 @@ define(
 			this.container.removeChild(this.target);
 			createjs.Ticker.removeListener(this.stage);
 
-			var gameOver = new createjs.Text('Game Over!', 'bold 36px arial');
+			var font = '24px "Lucida Grande", Helvetica, Arial, sans-serif';
+			var gameOver = new createjs.Text('Score: ' + score, font);
 			gameOver.x = (this.canvas.width / 2) - (gameOver.getMeasuredWidth() / 2);
 			gameOver.y = (this.canvas.height / 2) - (gameOver.getMeasuredHeight() / 2);
 			this.container.addChild(gameOver);

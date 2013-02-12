@@ -20,6 +20,7 @@
   exports.createScore = function(req, res) {
     var score = new Score({
       locations: req.body.locations,
+      calculatedScore: req.body.score,
       completionTime: parseInt(req.body.completionTime)
     });
 

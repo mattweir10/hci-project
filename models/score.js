@@ -23,6 +23,7 @@
 	    	y: Number
 	    }
 	  }],
+	  calculatedScore: Number,
 	  completionTime: Number,
 	  date: {
 	  	type: Date,

@@ -11,19 +11,21 @@ requirejs.config({
 });
 
 require(['jquery', 'game'], function($, Game) {
-  var game = new Game();
+  $(function() {
+    $('#game-link').on('click', function(event) {
+      $.get('/game', {}, function(response) {
+        $('.active').removeClass('active');
+        $('#main').html(response);
+        $('#game-link').parent().addClass('active');
 
-  $('#start').on('click', function(event) {
-    game.start();
-  });
+        var game = new Game();
+        $('#start').on('click', function(event) {
+          game.start();
+        });
+      });
 
-  $('#game-link').on('click', function(event) {
-    $.get('/game', {}, function(response) {
-      $('.active').removeClass('active');
-      $('#main').html(response);
-      $('#game-link').parent().addClass('active');
+      return false;
     });
-
-    return false;
   });
+
 });

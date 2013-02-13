@@ -13,12 +13,12 @@ html
             .container
               ul.nav
                 li(class=(page === 'home' ? 'active' : ''))
-                  a(id='home_link', href='/') Home
+                  a(id='home-link', href='/') Home
                 li(class=(page === 'game' ? 'active' : ''))
-                  a(id='game_link', href='/game') Game
+                  a(id='game-link', href='/game') Game
                 li(class=(page === 'scores' ? 'active' : ''))
-                  a(id='score_link', href='/scores') High Scores
+                  a(id='score-link', href='/scores') High Scores
                 li(class=(page === 'about' ? 'active' : ''))
-                  a(id='about_link', href='/about') About
+                  a(id='about-link', href='/about') About
       block content
     script(data-main='javascripts/main', src='//requirejs.org/docs/release/2.1.4/minified/require.js')

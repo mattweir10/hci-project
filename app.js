@@ -35,6 +35,7 @@ mongoose.connect(mongoUri);
 
 var api = require('./api.js');
 app.get('/', routes.index);
+app.get('/game', routes.game);
 app.get('/api/scores', api.getScores);
 app.post('/api/scores', api.createScore);
 

@@ -1,19 +1,19 @@
 requirejs.config({
-	shim: {
-		easeljs: {
-			exports: 'createjs'
-		}
-	},
-	paths: {
-		jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min',
-		easeljs: '//code.createjs.com/easeljs-0.5.0.min'
-	}
+  shim: {
+    easeljs: {
+    }
+  },
+  paths: {
+    jquery: '//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min',
+    easeljs: '//code.createjs.com/easeljs-0.5.0.min'
+  }
 });
 
 require(['jquery', 'game'], function($, Game) {
-	var game = new Game();
+  var game = new Game();
 
-	$('#start').on('click', function(event) {
-		game.start();
-	});
+  $('#start').on('click', function(event) {
+    game.start();
+  });
+
 });

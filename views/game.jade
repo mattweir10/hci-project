@@ -1,11 +1,5 @@
 extends layout
 
 block content
-  canvas#game(width=640, height=480) Your browser is old. Update.
-  p
-    button#start.btn.btn-primary Start
-  p#timer Timer: 
-    span#seconds 0.000
-    |  seconds
-  p#message
+  include game-partial
  

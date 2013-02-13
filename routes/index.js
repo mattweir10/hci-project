@@ -10,9 +10,9 @@ exports.index = function(req, res){
  * GET game page
  */
 exports.game = function(req, res) {
-	if (!req.body.ajax) {
-		res.render('game', { page: 'game' });
+	if (req.xhr) {
+		res.render('game-partial', { page: 'game' });
 	} else {
-		res.render('game', { page: 'game', layout: false });
+		res.render('game', { page: 'game' });
 	}
 };

@@ -20,5 +20,6 @@ html
                   a(id='score-link', href='/scores') High Scores
                 li(class=(page === 'about' ? 'active' : ''))
                   a(id='about-link', href='/about') About
-      block content
+      #main
+        block content
     script(data-main='javascripts/main', src='//requirejs.org/docs/release/2.1.4/minified/require.js')

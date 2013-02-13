@@ -1,6 +1,7 @@
 requirejs.config({
   shim: {
     easeljs: {
+      exports: 'createjs'
     }
   },
   paths: {
@@ -16,4 +17,13 @@ require(['jquery', 'game'], function($, Game) {
     game.start();
   });
 
+  $('#game-link').on('click', function(event) {
+    $.get('/game', {}, function(response) {
+      $('.active').removeClass('active');
+      $('#main').html(response);
+      $('#game-link').parent().addClass('active');
+    });
+
+    return false;
+  });
 });

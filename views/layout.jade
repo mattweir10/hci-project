@@ -1,8 +1,24 @@
 doctype 5
 html
   head
-    title= title
+    title HCI Project
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block content
-    script(data-main='javascripts/main', src='http://requirejs.org/docs/release/2.1.4/minified/require.js')
+    .container
+      .masthead
+        h3.muted hci-project
+        .navbar
+          .navbar-inner
+            .container
+              ul.nav
+                li(class=(page === 'home' ? 'active' : ''))
+                  a(id='home_link', href='/') Home
+                li(class=(page === 'game' ? 'active' : ''))
+                  a(id='game_link', href='/game') Game
+                li(class=(page === 'scores' ? 'active' : ''))
+                  a(id='score_link', href='/scores') High Scores
+                li(class=(page === 'about' ? 'active' : ''))
+                  a(id='about_link', href='/about') About
+      block content
+    script(data-main='javascripts/main', src='//requirejs.org/docs/release/2.1.4/minified/require.js')

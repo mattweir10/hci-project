@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node app",
-    "prepublish": "node_modules/requirejs/bin/r.js -o build.js"
+    "publish": "node_modules/requirejs/bin/r.js -o build.js"
   },
   "dependencies": {
     "express": "3.1.0",

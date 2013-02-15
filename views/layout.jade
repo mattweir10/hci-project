@@ -23,4 +23,7 @@ html
                   a(id='about-link', href='/about') About
       #main
         block content
-    script(data-main='javascripts/main', src='//requirejs.org/docs/release/2.1.4/minified/require.js')
+    if process.env.NODE_ENV === 'production'
+      script(data-main='javascripts/index', src='//requirejs.org/docs/release/2.1.4/minified/require.js')
+    else
+      script(data-main='javascripts/main', src='//requirejs.org/docs/release/2.1.4/minified/require.js')

@@ -23,9 +23,9 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
-  
+
   app.use(function(req, res, next) {
-    res.send(404, 'Sorry cant find that!');
+    res.send(404, 'Sorry can\'t find that!');
   });
   app.use(function(err, req, res, next) {
     console.error(err.stack);

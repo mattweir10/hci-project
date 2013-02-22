@@ -32,12 +32,41 @@ define(
 
       this.x = Math.round(Math.random() * width);
       this.y = Math.round(Math.random() * height);
+      if (Math.random() > 0.5) {
+        xRebound = 1;
+      } else {
+        xRebound = -1;
+      }
+      if (Math.random() > 0.5) {
+        yRebound = 1;
+      } else {
+        yRebound = -1;
+      }
     };
 
     Target.prototype.onPress = function(e) {
       this.clicked = true;
       this.mouseX = e.stageX;
       this.mouseY = e.stageY;
+    };
+
+    /*
+     * Moves target image across canvas
+     * If an edge is it, the image will rebound and continue moving
+     */
+    Target.prototype.moveTarget = function() {
+      if (this.x >= this.canvas.width - this.image.width) {
+        xRebound = -1;
+      } else if (this.x <= 0) {
+        xRebound = 1;
+      }
+      if (this.y >= this.canvas.height - this.image.height) {
+        yRebound = -1;
+      } else if (this.y <= 0) {
+        yRebound = 1;
+      }
+      this.x += 6 * xRebound;
+      this.y += 6 * yRebound;
     };
 
     Target.prototype.getWidth = function() {

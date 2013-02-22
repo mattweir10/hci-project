@@ -10,7 +10,7 @@ define(
   ],
   function($, Target) {
     function Game2() {   
-      this.canvas = document.getElementById('game2');
+      this.canvas = document.getElementById('game');
       this.container = new createjs.Container();
       this.stage = new createjs.Stage(this.canvas);
 
@@ -22,11 +22,11 @@ define(
       image.src = '/images/target.jpg';
 
       var stage = this.stage;
-      var game2 = this;
+      var game = this;
 
       image.onload = function(event) {
         var image = event.target;
-        game2.target = new Target(image, game2.canvas);
+        game.target = new Target(image, game.canvas);
       };
 
       createjs.Ticker.useRAF = true;
@@ -36,10 +36,10 @@ define(
     Game2.prototype.start = function() {
       var targetCount = 0,
         locations = [],
-        game2 = this;
+        game = this;
 
       this.container.removeAllChildren();
-      this.container.addChild(game2.target);
+      this.container.addChild(game.target);
 
       createjs.Ticker.addListener(this.stage);
       this.target.randomizeLocation();
@@ -55,24 +55,24 @@ define(
 
       // this gets called 60 times per second (60 FPS)
       this.stage.tick = function() {
-        if (game2.target.clicked) {
-          game2.target.clicked = false;
+        if (game.target.clicked) {
+          game.target.clicked = false;
           locations.push({
-            click: { x: game.target.mouseX, y: game2.target.mouseY },
-            target: game2.target.getCenter()
+            click: { x: game.target.mouseX, y: game.target.mouseY },
+            target: game.target.getCenter()
           });
 
           targetCount++;
-          game2.target.randomizeLocation();
+          game.target.randomizeLocation();
         }
 
         if (targetCount >= 5) {
           $('p#message').html('Game Over!').show().fadeOut(2000);
           window.clearInterval(intervalId); // stop timer
-          game2.end(locations, elapsed);
+          game.end(locations, elapsed);
         }
 
-        game2.target.moveTarget();
+        game.target.moveTarget();
 
         this.update();
       };

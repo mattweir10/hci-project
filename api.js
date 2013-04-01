@@ -2,7 +2,7 @@
   api.js
   API Controller
 */
- (function() {
+(function() {
   var Score = require('./models/score.js');
 
   // return all scores

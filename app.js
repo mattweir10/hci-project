@@ -12,7 +12,7 @@ var express = require('express'),
 var app = express();
 
 // app configuration
-app.configure(function(){
+app.configure(function() {
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -34,7 +34,7 @@ app.configure(function(){
 });
 
 // development config
-app.configure('development', function(){
+app.configure('development', function() {
   app.use(express.errorHandler());
 });
 

@@ -18,6 +18,8 @@ define(
       this.stage.mouseMoveOutside = true;
       this.stage.addChild(this.container);
 
+      this.finishedLoading = false;
+
       var image = new Image();
       image.src = '/images/target.jpg';
 
@@ -27,6 +29,7 @@ define(
       image.onload = function(event) {
         var image = event.target;
         game.target = new Target(image, game.canvas);
+        game.finishedLoading = true;
       };
 
       createjs.Ticker.useRAF = true;

@@ -54,7 +54,7 @@ define(
      * Moves target image across canvas
      * If an edge is it, the image will rebound and continue moving
      */
-    Target.prototype.moveTarget = function() {
+    Target.prototype.move = function() {
       if (this.x >= this.canvas.width - this.image.width) {
         xRebound = -1;
       } else if (this.x <= 0) {
@@ -87,8 +87,8 @@ define(
     Target.prototype.hasIntersection = function(that) {
       var thisCenter = this.getCenter()
         , thatCenter = that.getCenter()
-        , combinedWidth = (this.getWidth() / 2) + (that.getWidth() / 2)
-        , combinedHeight = (this.getHeight() / 2) + (that.getHeight() / 2);
+        , combinedWidth = this.getWidth() / 2 + that.getWidth() / 2
+        , combinedHeight = this.getHeight() / 2 + that.getHeight() / 2;
 
       var dx = Math.abs(thisCenter.x - thatCenter.x) - combinedWidth
         , dy = Math.abs(thisCenter.y - thatCenter.y) - combinedHeight;

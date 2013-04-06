@@ -84,6 +84,18 @@ define(
       };
     };
 
+    Target.prototype.hasIntersection = function(that) {
+      var thisCenter = this.getCenter()
+        , thatCenter = that.getCenter()
+        , combinedWidth = (this.getWidth() / 2) + (that.getWidth() / 2)
+        , combinedHeight = (this.getHeight() / 2) + (that.getHeight() / 2);
+
+      var dx = Math.abs(thisCenter.x - thatCenter.x) - combinedWidth
+        , dy = Math.abs(thisCenter.y - thatCenter.y) - combinedHeight;
+
+      return dx < 0 && dy < 0;
+    };
+
     return Target;
   }
 );  

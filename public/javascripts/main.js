@@ -10,7 +10,7 @@ requirejs.config({
   }
 });
 
-require(['jquery', 'game'], function($, Game) {
+require(['jquery', 'staticGame'], function($, Game) {
   $(function() {
     var setUpGame = function() {
       $('#start').on('click', function(event) {

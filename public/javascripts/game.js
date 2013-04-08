@@ -19,13 +19,17 @@ define(
       this.stage.addChild(this.container);
 
       this.finishedLoading = false;
+      this.timerId = 0;
+
+      this.targetCount = 0;
+      this.targetLocations = [];
+
+      this.elapsed = 0;
 
       var image = new Image();
       image.src = '/images/target.jpg';
 
-      var stage = this.stage;
       var game = this;
-
       image.onload = function(event) {
         var image = event.target;
         game.target = new Target(image, game.canvas);
@@ -34,58 +38,54 @@ define(
 
       createjs.Ticker.useRAF = true;
       createjs.Ticker.setFPS(60);
+
+      if (createjs.Touch.isSupported()) {
+        createjs.Touch.enable(this.stage);
+      }
     }
 
-    Game.prototype.start = function() {
-      var targetCount = 0,
-        locations = [],
-        game = this;
-
-      this.container.removeAllChildren();
-      this.container.addChild(game.target);
-
+    Game.prototype.setup = function() {
+      this.container.addChild(this.target);
       createjs.Ticker.addListener(this.stage);
+
       this.target.randomizeLocation();
 
-      var start = Date.now(),
-        elapsed = 0;
-      
       // run timer every 10ms
-      var intervalId = window.setInterval(function() {
-        elapsed = Date.now() - start;
-        $('span#seconds').html((elapsed / 1000).toFixed(3));
+      var game = this
+        , start = Date.now();
+
+      this.timerId = window.setInterval(function() {
+        game.elapsed = Date.now() - start;
+        $('span#seconds').html((game.elapsed / 1000).toFixed(3));
       }, 10);
-
-      // this gets called 60 times per second (60 FPS)
-      this.stage.tick = function() {
-        if (game.target.clicked) {
-          game.target.clicked = false;
-          locations.push({
-            click: { x: game.target.mouseX, y: game.target.mouseY },
-            target: game.target.getCenter()
-          });
-
-          targetCount++;
-          game.target.randomizeLocation();
-        }
-
-        if (targetCount >= 5) {
-          $('p#message').html('Game Over!').show().fadeOut(2000);
-          window.clearInterval(intervalId); // stop timer
-          game.end(locations, elapsed);
-        }
-
-        this.update();
-      };
     };
 
-    Game.prototype.end = function(locations, elapsed) {
+    Game.prototype.clickGameTick = function() {
+      if (this.target.clicked) {
+        this.target.clicked = false;
+        this.targetLocations.push({
+          click: { x: this.target.mouseX, y: this.target.mouseY },
+          target: this.target.getCenter()
+        });
+
+        this.targetCount++;
+        this.target.randomizeLocation();
+      }
+
+      if (this.targetCount >= 5) {
+        $('p#message').html('Game Over!').show().fadeOut(2000);
+        window.clearInterval(this.timerId); // stop timer
+        this.end();
+      }
+    };
+
+    Game.prototype.end = function() {
       // start with max score (number of pixels in target * 5 targets)
       var maxScore =
         Math.floor(Math.PI * Math.pow(this.target.getWidth() / 2, 2)) * 5;
       var score = maxScore;
       
-      locations.forEach(function(loc) {
+      this.targetLocations.forEach(function(loc) {
         // subtract each pixel off center
         var xOff = Math.abs(loc.click.x - loc.target.x);
         var yOff = Math.abs(loc.click.y - loc.target.y);
@@ -93,12 +93,12 @@ define(
       });
 
       // subtract time in ms
-      score -= elapsed;
+      score -= this.elapsed;
 
       var saveData = {
-        locations: locations,
+        locations: this.targetLocations,
         score: score,
-        completionTime: elapsed
+        completionTime: this.elapsed
       };
 
       // send our data to the API to save
@@ -107,8 +107,9 @@ define(
         $('p#message').append('<br>Saved!').show().fadeOut(2000);
       });
 
-      this.container.removeChild(this.target);
+      this.container.removeAllChildren();
       createjs.Ticker.removeListener(this.stage);
+      createjs.Touch.disable(this.stage);
 
       var font = '24px "Lucida Grande", Helvetica, Arial, sans-serif';
       var gameOver = new createjs.Text('Score: ' + score, font);

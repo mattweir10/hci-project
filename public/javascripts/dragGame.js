@@ -34,8 +34,8 @@ define(
 
         e.addEventListener('mouseup', function(ev) {
           game.targetLocations.push({
-            target: { x: game.target.x, y: game.target.y },
-            goal: { x: game.dragTarget.x, y: game.dragTarget.y }
+            click: { x: game.target.x, y: game.target.y },
+            target: { x: game.dragTarget.x, y: game.dragTarget.y }
           });
 
           game.targetCount++;
@@ -45,15 +45,13 @@ define(
 
       this.stage.tick = function() {
         if (game.targetCount > 4) {
-          game.targetCount = 0;
           window.clearInterval(game.timerId);
-          // TODO: send to server
-          console.log(game.targetLocations);
+          game.end();
         }
 
         this.update();
       };
-    }
+    };
 
     DragGame.prototype.newTargetLocations = function() {
       var target = this.target
@@ -69,7 +67,13 @@ define(
 
       target.visible = true;
       dragTarget.visible = true;
-    }
+    };
+
+    DragGame.prototype.calculateScore = function() {
+      // TODO: new score system
+      var score = 50000;
+      return score;
+    };
 
     return DragGame;
   }

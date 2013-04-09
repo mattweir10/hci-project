@@ -24,6 +24,6 @@ html
       #main
         block content
     if process.env.NODE_ENV === 'production'
-      script(data-main='javascripts/index', src='//requirejs.org/docs/release/2.1.4/minified/require.js')
+      script(data-main='javascripts/index', src='/javascripts/require.js')
     else
-      script(data-main='javascripts/main', src='//requirejs.org/docs/release/2.1.4/minified/require.js')
+      script(data-main='javascripts/main', src='/javascripts/require.js')

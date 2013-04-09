@@ -26,6 +26,8 @@ define(
 
       this.elapsed = 0;
 
+      this.finished = false;
+
       var image = new Image();
       image.src = '/images/target.jpg';
 
@@ -80,6 +82,17 @@ define(
     };
 
     Game.prototype.end = function() {
+      this.saveGameData();
+
+      this.container.removeAllChildren();
+      createjs.Ticker.removeListener(this.stage);
+      createjs.Touch.disable(this.stage);
+
+      this.finished = true;
+    };
+
+    Game.prototype.calculateScore = function() {
+      /*
       // start with max score (number of pixels in target * 5 targets)
       var maxScore =
         Math.floor(Math.PI * Math.pow(this.target.getWidth() / 2, 2)) * 5;
@@ -94,10 +107,18 @@ define(
 
       // subtract time in ms
       score -= this.elapsed;
+      */
 
+      // TODO: new score system
+
+      var score = 10000;
+      return score;
+    };
+
+    Game.prototype.saveGameData = function() {
       var saveData = {
         locations: this.targetLocations,
-        score: score,
+        score: this.calculateScore(),
         completionTime: this.elapsed
       };
 
@@ -106,16 +127,16 @@ define(
         console.log(data);
         $('p#message').append('<br>Saved!').show().fadeOut(2000);
       });
+    };
 
+    Game.prototype.gameOver = function(score) {
       this.container.removeAllChildren();
-      createjs.Ticker.removeListener(this.stage);
-      createjs.Touch.disable(this.stage);
-
       var font = '24px "Lucida Grande", Helvetica, Arial, sans-serif';
       var gameOver = new createjs.Text('Score: ' + score, font);
       gameOver.x = (this.canvas.width / 2) - (gameOver.getMeasuredWidth() / 2);
       gameOver.y = (this.canvas.height / 2) - (gameOver.getMeasuredHeight() / 2);
       this.container.addChild(gameOver);
+      this.stage.update();
     };
 
     return Game;

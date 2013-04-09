@@ -10,17 +10,11 @@ requirejs.config({
   }
 });
 
-require(['jquery', 'staticGame'], function($, Game) {
+require(['jquery', 'gameManager'], function($, GameManager) {
   $(function() {
     var setUpGame = function() {
       $('#start').on('click', function(event) {
-        var game = new Game();
-        var intId = window.setInterval(function() {
-          if (game.finishedLoading) {
-            window.clearInterval(intId);
-            game.start();
-          }
-        }, 50);
+        var gameManager = new GameManager();
       });
     };
 

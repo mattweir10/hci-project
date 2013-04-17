@@ -7,9 +7,15 @@ define(
 
     function MoveGame() {
       Game.call(this);
+      this.instructions = [
+        "Click each moving target as close to the center as possible and as fast as you can",
+        "You will click five targets for this game",
+        "Scoring will start after you click the first target"
+      ];
     }
 
     MoveGame.prototype.start = function() {
+      this.displayInstructions();
       Game.prototype.setup.call(this);
 
       var game = this;

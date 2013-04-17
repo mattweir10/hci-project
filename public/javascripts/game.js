@@ -28,6 +28,9 @@ define(
 
       this.finished = false;
 
+      this.instructions = [];
+      this.timerRunning = false;
+
       var image = new Image();
       image.src = '/images/target.jpg';
 
@@ -47,11 +50,15 @@ define(
     }
 
     Game.prototype.setup = function() {
+      $('span#seconds').html('0.000');
+
       this.container.addChild(this.target);
       createjs.Ticker.addListener(this.stage);
 
       this.target.randomizeLocation();
+    };
 
+    Game.prototype.startTimer = function() {
       // run timer every 10ms
       var game = this
         , start = Date.now();
@@ -65,6 +72,12 @@ define(
     Game.prototype.clickGameTick = function() {
       if (this.target.clicked) {
         this.target.clicked = false;
+
+        if (! this.timerRunning) {
+          this.startTimer();
+          this.timerRunning = true;
+        }
+
         this.targetLocations.push({
           click: { x: this.target.mouseX, y: this.target.mouseY },
           target: this.target.getCenter()
@@ -74,7 +87,7 @@ define(
         this.target.randomizeLocation();
       }
 
-      if (this.targetCount >= 5) {
+      if (this.targetCount > 5) {
         $('p#message').html('Game Over!').show().fadeOut(2000);
         window.clearInterval(this.timerId); // stop timer
         this.end();
@@ -137,6 +150,13 @@ define(
       gameOver.y = (this.canvas.height / 2) - (gameOver.getMeasuredHeight() / 2);
       this.container.addChild(gameOver);
       this.stage.update();
+    };
+
+    Game.prototype.displayInstructions = function() {
+      $('ul#instructions').html('');
+      this.instructions.forEach(function(item) {
+        $('ul#instructions').append('<li>' + item + '</li>')
+      });
     };
 
     return Game;

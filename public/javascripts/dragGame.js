@@ -12,6 +12,12 @@ define(
 
       this.dragTarget = new Target('/images/target.jpg', this.canvas);
       this.dragTarget.alpha = 0.3;
+
+      this.instructions = [
+        "Drag each target onto the grayed-out target",
+        "You will drag five targets to their designated areas",
+        "Scoring will start after you complete the first drag-and-drop"
+      ];
     }
 
     DragGame.prototype.start = function() {
@@ -33,6 +39,11 @@ define(
         });
 
         e.addEventListener('mouseup', function(ev) {
+          if (! game.timerRunning) {
+            game.startTimer();
+            game.timerRunning = true;
+          }
+
           game.targetLocations.push({
             click: { x: game.target.x, y: game.target.y },
             target: { x: game.dragTarget.x, y: game.dragTarget.y }
@@ -44,7 +55,7 @@ define(
       });
 
       this.stage.tick = function() {
-        if (game.targetCount > 4) {
+        if (game.targetCount > 5) {
           window.clearInterval(game.timerId);
           game.end();
         }

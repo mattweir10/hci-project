@@ -15,6 +15,9 @@ require(['jquery', 'gameManager'], function($, GameManager) {
     var setUpGame = function() {
       $('#start').on('click', function(event) {
         var gameManager = new GameManager();
+        if (gameManager) {
+          $('#start').attr('disabled', 'disabled');
+        }
       });
     };
 
@@ -23,6 +26,7 @@ require(['jquery', 'gameManager'], function($, GameManager) {
         $('.active').removeClass('active');
         $('#main').html(response);
         $('#game-link').parent().addClass('active');
+        $('#start').removeAttr('disabled');
         setUpGame();
       });
 

@@ -55,6 +55,9 @@ define(
       });
 
       this.stage.tick = function() {
+        var count = (game.targetCount > 0) ? (5 - game.targetCount + 1) : 'Practice';
+        game.countText.text = count;
+
         if (game.targetCount > 5) {
           window.clearInterval(game.timerId);
           game.end();

@@ -31,6 +31,12 @@ define(
       this.instructions = [];
       this.timerRunning = false;
 
+      var font = '14px "Lucida Grande", Helvetica, Arial, sans-serif';
+      var count = new createjs.Text('5', font);
+      count.x = count.y = 10;
+      this.container.addChild(count);
+      this.countText = count;
+
       var image = new Image();
       image.src = '/images/target.jpg';
 
@@ -70,6 +76,9 @@ define(
     };
 
     Game.prototype.clickGameTick = function() {
+      var count = (this.targetCount > 0) ? (5 - this.targetCount + 1) : 'Practice';
+      this.countText.text = count;
+
       if (this.target.clicked) {
         this.target.clicked = false;
 

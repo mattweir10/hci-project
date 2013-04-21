@@ -159,6 +159,7 @@ define(
       gameOver.y = (this.canvas.height / 2) - (gameOver.getMeasuredHeight() / 2);
       this.container.addChild(gameOver);
       this.stage.update();
+      $('#start').removeAttr('disabled');
     };
 
     Game.prototype.displayInstructions = function() {

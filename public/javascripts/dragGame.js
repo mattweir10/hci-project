@@ -18,6 +18,7 @@ define(
         "You will drag five targets to their designated areas",
         "Scoring will start after you complete the first drag-and-drop"
       ];
+      this.gameType = 'drag';
     }
 
     DragGame.prototype.start = function() {

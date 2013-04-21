@@ -19,9 +19,10 @@
   // create a new score
   exports.createScore = function(req, res) {
     var score = new Score({
-      locations: req.body.locations,
-      calculatedScore: req.body.score,
-      completionTime: parseInt(req.body.completionTime)
+      games: req.body.games,
+      calculatedScore: req.body.calculatedScore,
+      completionTime: parseInt(req.body.completionTime),
+      userAgent: req.headers['user-agent']
     });
 
     score.save(function(err) {

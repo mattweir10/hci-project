@@ -104,8 +104,6 @@ define(
     };
 
     Game.prototype.end = function() {
-      this.saveGameData();
-
       this.container.removeAllChildren();
       createjs.Ticker.removeListener(this.stage);
       createjs.Touch.disable(this.stage);
@@ -137,18 +135,12 @@ define(
       return score;
     };
 
-    Game.prototype.saveGameData = function() {
-      var saveData = {
+    Game.prototype.getSaveGameData = function() {
+      return {
         locations: this.targetLocations,
-        score: this.calculateScore(),
+        gameType: this.gameType,
         completionTime: this.elapsed
       };
-
-      // send our data to the API to save
-      $.post('/api/scores', saveData, function(data) {
-        console.log(data);
-        $('p#message').append('<br>Saved!').show().fadeOut(2000);
-      });
     };
 
     Game.prototype.gameOver = function(score) {

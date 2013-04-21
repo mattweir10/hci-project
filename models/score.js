@@ -13,18 +13,22 @@
    */
   var scoreSchema = new Schema({
     // array of objects which includes click and target data
-    locations: [{
-      click: {
-        x: Number,
-        y: Number
-      },
-      target: {
-        x: Number,
-        y: Number
-      }
+    games: [{
+      locations: [{
+        click: {
+          x: Number,
+          y: Number
+        },
+        target: {
+          x: Number,
+          y: Number
+        }
+      }],
+      gameType: String,
+      completionTime: Number
     }],
     calculatedScore: Number,
-    completionTime: Number,
+    userAgent: String,
     date: {
       type: Date,
       default: Date.now

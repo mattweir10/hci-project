@@ -12,6 +12,7 @@ define(
         "You will click five targets for this game",
         "Scoring will start after you click the first target"
       ];
+      this.gameType = 'move';
     }
 
     MoveGame.prototype.start = function() {

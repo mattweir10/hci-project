@@ -22,7 +22,8 @@
       games: req.body.games,
       calculatedScore: req.body.calculatedScore,
       completionTime: parseInt(req.body.completionTime),
-      userAgent: req.headers['user-agent']
+      userAgent: req.headers['user-agent'],
+      ipAddress: req.connection.remoteAddress
     });
 
     score.save(function(err) {

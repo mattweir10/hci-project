@@ -29,6 +29,7 @@
     }],
     calculatedScore: Number,
     userAgent: String,
+    ipAddress: String,
     date: {
       type: Date,
       default: Date.now

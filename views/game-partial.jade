@@ -1,12 +1,33 @@
-h4 Instructions
-ul#instructions
-  li Before each game, read the instructions for it here
-  li You will have an opportunity to have a test round before scoring starts
-  li At the conclusion of the game, you will have a chance to compare your score to the high scores
-p
-  button#start.btn.btn-primary Start
-canvas#game(width=640, height=480) Your browser is old. Update.
-p#timer Timer: 
-  span#seconds 0.000
-  |  seconds
-p#message
+#game-container
+  h4 Instructions (READ ME FIRST!)
+  ul#instructions
+    li Before each game, read the instructions for it here
+    li You will have an opportunity to have a test round before scoring starts
+    li Please select input device (not necessary if on touch device)
+      form(style='margin: 0')
+        label.radio.inline
+          input#mouse(type='radio', value='mouse', name='mouseType')
+          | Mouse
+        label.radio.inline
+          input#trackpad(type='radio', value='trackpad', name='mouseType')
+          | Trackpad
+    li Please enter your name below before you start if you would like to compete for the high score
+      form(style='margin: 0')
+        input#name(type='text', placeholder='Name')
+  p
+    button#start.btn.btn-primary Start
+  canvas#game(width=640, height=480) Your browser is old. Update.
+  p#timer Timer: 
+    span#seconds 0.000
+    |  seconds
+  p#message
+#score-container(style='display:none')
+  h2 Top Scores
+  h4 Your score: 
+    span#yourscore 0
+  table.table.table-hover#scores
+    thead
+      tr
+        th Name
+        th Score
+    tbody

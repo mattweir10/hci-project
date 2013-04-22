@@ -46,6 +46,7 @@ var api = require('./api.js');
 app.get('/', routes.index);
 app.get('/game', routes.game);
 app.get('/api/scores', api.getScores);
+app.get('/api/scores/top', api.getTopScores);
 app.post('/api/scores', api.createScore);
 
 http.createServer(app).listen(app.get('port'), function(){

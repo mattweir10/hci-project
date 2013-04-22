@@ -27,7 +27,9 @@
       gameType: String,
       completionTime: Number
     }],
+    scoreName: String,
     calculatedScore: Number,
+    mouseType: String,
     userAgent: String,
     ipAddress: String,
     date: {

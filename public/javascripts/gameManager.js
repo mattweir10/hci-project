@@ -1,10 +1,11 @@
 define(
   [
+    'jquery',
     'staticGame',
     'moveGame',
     'dragGame'
   ], 
-  function(StaticGame, MoveGame, DragGame) {
+  function($, StaticGame, MoveGame, DragGame) {
     function GameManager() {
       this.saveData = {
         games: [],
@@ -38,6 +39,16 @@ define(
       }
 
       if (this.gameNumber === 0) {
+        this.saveData.scoreName = $('#name').val() || '';
+
+        if ($('#mouse').is(':checked')) {
+          this.saveData.mouseType = 'mouse';
+        } else if ($('#trackpad').is(':checked')) {
+          this.saveData.mouseType = 'trackpad';
+        } else {
+          this.saveData.mouseType = 'touch';
+        }
+
         this.currentGame = new StaticGame();
         this.loadGame();
       } else if (this.gameNumber === 1) {
@@ -47,15 +58,38 @@ define(
         this.currentGame = new DragGame();
         this.loadGame();
       } else {
-        // this.currentGame.gameOver(this.combinedScore);
-        
         var saveData = this.saveData;
         saveData.calculatedScore = this.combinedScore;
+
+        $('#yourscore').html(saveData.calculatedScore);
+        if (!saveData.scoreName || saveData.scoreName.length <= 0) {
+          $('#yourscore').append(' <small>not eligible for high score</small>');
+        }
 
         // send our data to the API to save
         $.post('/api/scores', saveData, function(data) {
           console.log(data);
-          $('p#message').append('<br>Saved!').show().fadeOut(2000);
+          dataId = data['_id'];
+
+          $.get('/api/scores/top', function(data) {
+            data.forEach(function(score) {
+              if (score.scoreName && score.scoreName.length > 0) {
+                var newHtml = '';
+                if (dataId === score['_id']) {
+                  newHtml += '<tr class="info">';
+                } else {
+                  newHtml += '<tr>';
+                }
+                newHtml += '<td>' + score.scoreName + '</td>';
+                newHtml += '<td>' + score.calculatedScore + '</td>';
+                newHtml += '</tr>';
+                $('#scores').append(newHtml);
+              }
+            });
+
+            $('#game-container').hide();
+            $('#score-container').show();
+          });
         });
       }
     }

@@ -27,7 +27,7 @@
     return Score.find({})
       .limit(10)
       .select('scoreName calculatedScore')
-      .sort('-calculatedScore')
+      .sort('-calculatedScore -date')
       .exec(cb);
   };
 

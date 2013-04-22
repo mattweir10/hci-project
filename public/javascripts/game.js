@@ -112,26 +112,20 @@ define(
     };
 
     Game.prototype.calculateScore = function() {
-      /*
-      // start with max score (number of pixels in target * 5 targets)
-      var maxScore =
-        Math.floor(Math.PI * Math.pow(this.target.getWidth() / 2, 2)) * 5;
-      var score = maxScore;
-      
-      this.targetLocations.forEach(function(loc) {
-        // subtract each pixel off center
-        var xOff = Math.abs(loc.click.x - loc.target.x);
-        var yOff = Math.abs(loc.click.y - loc.target.y);
-        score -= xOff + yOff;
+      // TODO: finish score system
+      var maxPixels = Math.floor(Math.PI * Math.pow(this.target.getWidth() / 2, 2));
+      var accuracy = 0;
+      this.targetLocations.forEach(function(loc, index) {
+        if (index > 0) {
+          var xOff = Math.abs(loc.click.x - loc.target.x);
+          var yOff = Math.abs(loc.click.y - loc.target.y);
+          accuracy += (maxPixels - xOff - yOff) / maxPixels;
+        }
       });
 
-      // subtract time in ms
-      score -= this.elapsed;
-      */
+      accuracy /= 5;
 
-      // TODO: new score system
-
-      var score = 10000;
+      var score = Math.round(accuracy * 100000);
       return score;
     };
 

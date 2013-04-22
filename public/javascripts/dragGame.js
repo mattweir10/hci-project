@@ -84,12 +84,6 @@ define(
       dragTarget.visible = true;
     };
 
-    DragGame.prototype.calculateScore = function() {
-      // TODO: new score system
-      var score = 50000;
-      return score;
-    };
-
     return DragGame;
   }
 );

@@ -24,7 +24,7 @@
         return console.log(err);
       }
     };
-    return Score.find({})
+    return Score.find({ scoreName: { $ne: '' }})
       .limit(10)
       .select('scoreName calculatedScore')
       .sort('-calculatedScore -date')

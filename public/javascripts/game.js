@@ -117,7 +117,6 @@ define(
     };
 
     Game.prototype.calculateScore = function() {
-      // TODO: finish score system
       var maxPixels = Math.floor(Math.PI * Math.pow(this.target.getWidth() / 2, 2));
       var accuracy = 0;
       this.targetLocations.forEach(function(loc, index) {

@@ -39,7 +39,7 @@ define(
       this.countText = count;
 
       var image = new Image();
-      image.src = '/images/target.jpg';
+      image.src = '/images/target.gif';
 
       var game = this;
       image.onload = function(event) {

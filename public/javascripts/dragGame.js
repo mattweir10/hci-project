@@ -10,7 +10,7 @@ define(
     function DragGame() {
       Game.call(this); // call super constructor
 
-      this.dragTarget = new Target('/images/target.jpg', this.canvas);
+      this.dragTarget = new Target('/images/target.gif', this.canvas);
       this.dragTarget.alpha = 0.3;
 
       this.instructions = [

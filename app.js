@@ -43,7 +43,7 @@ var mongoUri = process.env.MONGOHQ_URL || 'mongodb://localhost/hci';
 mongoose.connect(mongoUri);
 
 var api = require('./api.js');
-app.get('/', routes.index);
+app.get('/', routes.game);
 app.get('/game', routes.game);
 app.get('/api/scores', api.getScores);
 app.get('/api/scores/top', api.getTopScores);

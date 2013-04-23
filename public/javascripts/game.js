@@ -25,6 +25,7 @@ define(
       this.targetLocations = [];
 
       this.elapsed = 0;
+      this.targetElapsed = [];
 
       this.finished = false;
 
@@ -81,11 +82,15 @@ define(
 
       if (this.target.clicked) {
         this.target.clicked = false;
-
+           
         if (! this.timerRunning) {
           this.startTimer();
           this.timerRunning = true;
         }
+
+        this.targetElapsed.push({
+          targetTime: this.elapsed
+        });
 
         this.targetLocations.push({
           click: { x: this.target.mouseX, y: this.target.mouseY },
@@ -124,8 +129,31 @@ define(
       });
 
       accuracy /= 5;
-
-      var score = Math.round(accuracy * 100000);
+      
+      var timeScore = 0;
+      var prevTime = 0;
+      this.targetElapsed.forEach(function(loc, index) {
+        if (index > 0) {
+          var timeElapsed = loc.targetTime;
+          var timeElapsedTarget = timeElapsed - prevTime;
+          if (timeElapsedTarget < 1000) {
+            timeScore += 20000;
+          } else if (timeElapsedTarget < 1500) {
+            timeScore += 16000;
+          } else if (timeElapsedTarget < 2000) {
+            timeScore += 12000;
+          } else if (timeElapsedTarget < 2500) {
+            timeScore += 8000;
+          } else if (timeElapsedTarget < 3000) {
+            timeScore += 4000;
+          } else {
+            // No points
+          }
+          prevTime = timeElapsed;
+        }
+      });
+      
+      var score = Math.round(accuracy * 100000) + timeScore;
       return score;
     };
 

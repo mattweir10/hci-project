@@ -89,6 +89,22 @@ define(
 
             $('#game-container').hide();
             $('#score-container').show();
+            $('#playAgain').on('click', function(e) {
+              $.get('/game', {}, function(response) {
+                $('.active').removeClass('active');
+                $('#main').html(response);
+                $('#game-link').parent().addClass('active');
+                $('#start').removeAttr('disabled');
+                $('#start').on('click', function(event) {
+                  var gameManager = new GameManager();
+                  if (gameManager) {
+                    $('#start').attr('disabled', 'disabled');
+                  }
+                });
+              });
+
+              return false;
+            });
           });
         });
       }
